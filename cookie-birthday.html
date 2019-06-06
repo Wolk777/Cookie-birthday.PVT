@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Cookie-birthday</title>
+	<style type="text/css">
+		body{
+			background-image: url(background1.jpg);
+		}
+		
+		#container{
+			position: relative;
+			margin-left: 50px;
+			margin-top: 100px;
+			width: 1150px;
+			height: 300px;
+			background: gainsboro;
+			font-family: Geneva, Arial, Helvetica, sans-serif;
+			font-size: 300%;
+			color: steelblue;
+			text-align:center;
+			padding: 35px;
+			opacity: 0.7;
+		}
+
+		#container:hover {
+			outline: 5px solid #9E8463;
+			outline-offset: 5px;
+		}
+
+		#nameUser{
+		position: relative;	
+		font-size: 150%;
+		padding-bottom: 30px;
+		opacity: 1;
+		}
+
+		#timer{
+		position: absolute;
+		margin-top: 35px;
+		font-size: 125%;
+		text-align:left;
+		opacity: 1;
+		}
+	</style>
+</head>
+<body>
+	<div id="container">
+		<div id="nameUser"></div>
+		<div>До Вашего дня рождения осталось:</div>
+		<div id="timer"></div>
+	</div>
+<script type="text/javascript">
+	var name, date, time;
+	do name = prompt('Введите имя', '');
+	while(!name||name.length<3||name.length>15);
+	do dateBirthday = prompt('Введите дату рождения в формате "ГГГГ,ММ,ДД"', '');
+	while(!dateBirthday||dateBirthday.length<10||dateBirthday.length>11);
+	// alert(name);
+	// alert(dateBirthday);
+	var dateBirthday = new Date(dateBirthday);
+	//var expire = new Date();
+	// document.cookie = "userName=${name};expires=" + expire.toUTCString() + ";";
+	// //document.cookie = "country=Belarus;expires=" + expire.toUTCString() + ";";
+	// document.cookie = `date=${name};expires=${expire.toUTCString()};`;
+	//var day = expire - dateBirthday;
+	var date = new Date();
+	dateBirthday.setFullYear(date.getFullYear());
+	if (date > dateBirthday) {
+		dateBirthday.setFullYear(dateBirthday.getFullYear() + 1);
+	}
+	console.log(dateBirthday);
+	
+
+// function timer() {
+//     var d = new Date();
+//     var dateBirthday = new Date(dateBirthday); //Задаем дату, к которой будет осуществляться обратный отсчет
+//     var result = (dateBirthday - d)+1000;
+//     if (result < 0) {
+//         var elmnt = document.getElementById('timer');
+//         elmnt.innerHTML = ' - : - - : - - : - - ';
+//         return undefined;
+//     }
+//     var seconds = Math.floor((result/1000)%60);
+//     var minutes = Math.floor((result/1000/60)%60);
+//     var hours = Math.floor((result/1000/60/60)%24);
+//     var days = Math.floor(result/1000/60/60/24);
+//     if (seconds < 10) seconds = '0' + seconds;
+//     if (minutes < 10) minutes = '0' + minutes;
+//     if (hours < 10) hours = '0' + hours;
+//     var elmnt = document.getElementById('timer');
+//      elmnt.innerHTML = days + ':' + hours + ':' + minutes + ':' + seconds; 
+//      console.log(elmnt);
+//     setTimeout(timer, 1000);
+// }
+// timer();
+
+
+function calcDate() {
+    date = new Date();
+	if (date > dateBirthday) {
+		time = date - dateBirthday;
+	} else {time = dateBirthday - date;}
+
+    var second = Math.floor((time/1000)%60);
+    var minute = Math.floor((time/1000/60)%60);
+    var hour = Math.floor((time/1000/60/60)%24);
+    var day = Math.floor(time/1000/60/60/24);
+    var months = Math.floor(day/30);
+
+    var s;
+    var m;
+    var h;
+    var d;
+    
+    // console.log(time);
+    // console.log(seconds);
+    // console.log(minute);
+    // console.log(hour);
+    // console.log(days);
+    // console.log(months);
+    if (second%10 == 1 && second !== 11 ) {s=" секунда "
+	} else if ((second%10 == 2 || second%10 == 3 || second%10 == 4) && (second < 10 || second > 20)){s = " секунды "
+    } else {s = " секунд "};
+    	
+    if (minute%10 == 1 && minute !== 11 ) {m=" минута "
+	} else if ((minute%10 == 2 || minute%10 == 3 || minute%10 == 4) && (minute < 10 || minute > 20)){m = " минуты "
+    } else {m = " минут "};
+
+    if (hour%10 == 1 && hour !== 11 ) {h =" час "
+	} else if ((hour%10 == 2 || hour%10 == 3 || hour%10 == 4) && (hour < 10 || hour > 20)){h = " часа "
+    } else {h = " часов "};
+
+    if (day%10 == 1 && day%100 !== 11 ) {d =" день "
+	} else if ((day%10 == 2 || day%10 == 3 || day%10 == 4) && (day < 10 || day > 20)){d = " дня "
+    } else {d = " дней "};    
+
+
+
+    	if (second < 10) {second = '0' + second}
+    	if (minute < 10) {minute = '0' + minute }
+    	if (hour < 10) {hour = '0' + hour }
+
+
+
+
+nameUser.innerHTML = "Здравствуйте " + name + "!";
+timer.innerHTML =day + d +hour + h + minute + m + second + s;
+//console.dir(seconds);
+// console.log(a);
+    
+
+    // var months = Math.floor(days/31);
+
+    // var message = date2.toDateString();
+    // message += " was "
+    // message += days + " days " 
+    // message += months + " months "
+    // message += years + " years ago \n"
+
+    // return message
+    setTimeout(calcDate, 1000);
+    }
+
+calcDate();
+// a = calcDate(today,past)
+// console.log(a) 
+</script>
+
+</body>
+</html>
